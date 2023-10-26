@@ -1,0 +1,25 @@
+name: Fibonacci
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.4'
+          architecture: 'x64'
+      - name: Unit Test
+        run: python test_fibonacci.py
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.11.4'
+  #         architecture: 'x64'
+  #     - name: Build Executable
+  #       run: python test_fibonacci.py
