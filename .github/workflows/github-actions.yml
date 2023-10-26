@@ -31,6 +31,6 @@ jobs:
       - name: Upload build results
         uses: actions/upload-artifact@v3
         with:
-          name: build-results-${{ github.run.id }}
+          name: build-results-${{ github.run_id }}
           path: dist/*
         if: ${{ always() }}
