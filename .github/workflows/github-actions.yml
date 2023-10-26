@@ -8,18 +8,30 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11.4'
+          python-version: '3.x'
           architecture: 'x64'
       - name: Unit Test
         run: python test_fibonacci.py
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Set up Python
-  #       uses: actions/setup-python@v4
-  #       with:
-  #         python-version: '3.11.4'
-  #         architecture: 'x64'
-  #     - name: Build Executable
-  #       run: python test_fibonacci.py
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: '3.x'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+      - name: Set pyinstaller
+        run: pip install pyinstaller
+      - name: Build Executable
+        run: pyinstaller -F fibonacci.py
+      - name: Upload build results
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-results-${{ GITHUB_RUN_ID }}
+          path: dist/*
+        if: ${{ always() }}
